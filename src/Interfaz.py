@@ -47,13 +47,13 @@ class InterfazConsola:
             ruta_base += "/"
         
         if not os.path.exists(ruta_base):
-            print("❌ La ruta no existe")
+            print("La ruta no existe")
             return False
         
         # Obtener lista de imágenes
         archivos = [f for f in os.listdir(ruta_base) if f.endswith('.jpg')]
         if not archivos:
-            print("❌ No se encontraron imágenes .jpg")
+            print("No se encontraron imágenes .jpg")
             return False
         
         print(f"Encontradas {len(archivos)} imágenes")
@@ -76,17 +76,17 @@ class InterfazConsola:
             self.conjunto_validacion = ConjuntoDatos(ruta_base, val_ids)
             self.conjunto_test = ConjuntoDatos(ruta_base, test_ids)
             
-            print("✅ Datos cargados exitosamente")
+            print("Datos cargados exitosamente")
             return True
             
         except Exception as e:
-            print(f"❌ Error cargando datos: {e}")
+            print(f"Error cargando datos: {e}")
             return False
     
     def explorar_datos(self):
         """Explora y visualiza los datos"""
         if self.conjunto_entrenamiento is None:
-            print("❌ Primero debe cargar los datos")
+            print("Primero debe cargar los datos")
             return
         
         print("\n--- EXPLORACIÓN DE DATOS ---")
@@ -124,7 +124,7 @@ class InterfazConsola:
                     hist = input("¿Mostrar histogramas? (s/n): ").lower() == 's'
                     dataset.visualizar_imagen(idx, hist)
                 except (ValueError, IndexError):
-                    print("❌ Índice inválido")
+                    print("Índice inválido")
             
         elif opcion == "3":
             self.conjunto_entrenamiento.visualizar_histogramas_conjunto()
@@ -140,7 +140,7 @@ class InterfazConsola:
     def entrenar_clasificadores(self):
         """Entrena todos los clasificadores"""
         if self.conjunto_entrenamiento is None:
-            print("❌ Primero debe cargar los datos")
+            print("Primero debe cargar los datos")
             return
         
         print("\n--- ENTRENAMIENTO DE CLASIFICADORES ---")
@@ -166,12 +166,12 @@ class InterfazConsola:
         features = input("Características (rgb/hsv) [rgb]: ").strip() or "rgb"
         self.clasificador_kmeans = ClasificadorKMeans(n_clusters=2, features=features)
         
-        print("✅ Clasificadores entrenados")
+        print("Clasificadores entrenados")
     
     def evaluar_modelos(self):
         """Evalúa el rendimiento de los modelos"""
         if not all([self.clasificador_rgb, self.clasificador_pca, self.clasificador_kmeans]):
-            print("❌ Primero debe entrenar los clasificadores")
+            print("Primero debe entrenar los clasificadores")
             return
         
         print("\n--- EVALUACIÓN DE MODELOS ---")
@@ -271,7 +271,7 @@ class InterfazConsola:
     def generar_segmentaciones(self):
         """Genera imágenes de segmentación de muestra"""
         if not all([self.clasificador_rgb, self.clasificador_pca, self.clasificador_kmeans]):
-            print("❌ Primero debe entrenar los clasificadores")
+            print("Primero debe entrenar los clasificadores")
             return
         
         print("\n--- GENERACIÓN DE SEGMENTACIONES ---")
@@ -285,7 +285,7 @@ class InterfazConsola:
             idx = int(input("Seleccione índice de imagen: "))
             imagen = self.conjunto_test.imagenes[idx]
         except (ValueError, IndexError):
-            print("❌ Índice inválido")
+            print("Índice inválido")
             return
         
         print(f"Generando segmentaciones para: {imagen.id}")
@@ -357,7 +357,7 @@ class InterfazConsola:
     def comparar_resultados(self):
         """Compara y presenta resultados finales"""
         if not self.resultados:
-            print("❌ Primero debe evaluar los modelos")
+            print("Primero debe evaluar los modelos")
             return
         
         print("\n" + "="*80)
@@ -382,7 +382,7 @@ class InterfazConsola:
                 mejor_modelo = nombre
         
         print("-" * 80)
-        print(f"🏆 MEJOR MODELO: {mejor_modelo} (Jaccard: {mejor_jaccard:.4f})")
+        print(f"MEJOR MODELO: {mejor_modelo} (Jaccard: {mejor_jaccard:.4f})")
         
         # Análisis detallado
         print(f"\n--- ANÁLISIS DETALLADO ---")
@@ -424,7 +424,7 @@ class InterfazConsola:
         
         if opcion == "1":
             if not all([self.clasificador_rgb, self.clasificador_pca, self.clasificador_kmeans]):
-                print("❌ No hay modelos entrenados para guardar")
+                print("No hay modelos entrenados para guardar")
                 return
             
             nombre_archivo = input("Nombre del archivo (sin extensión): ").strip()
@@ -445,7 +445,7 @@ class InterfazConsola:
                 print(f"✅ Modelos guardados en {nombre_archivo}.pkl")
                 
             except Exception as e:
-                print(f"❌ Error guardando modelos: {e}")
+                print(f"Error guardando modelos: {e}")
         
         elif opcion == "2":
             nombre_archivo = input("Nombre del archivo: ").strip()
@@ -459,10 +459,10 @@ class InterfazConsola:
                 self.clasificador_kmeans = modelos['clasificador_kmeans']
                 self.resultados = modelos.get('resultados', {})
                 
-                print("✅ Modelos cargados exitosamente")
+                print("Modelos cargados exitosamente")
                 
             except Exception as e:
-                print(f"❌ Error cargando modelos: {e}")
+                print(f"Error cargando modelos: {e}")
     
     def ejecutar(self):
         """Ejecuta la interfaz principal"""
@@ -492,7 +492,7 @@ class InterfazConsola:
                 elif opcion == "7":
                     self.guardar_cargar_modelos()
                 else:
-                    print("❌ Opción inválida")
+                    print("Opción inválida")
                 
                 input("\nPresione Enter para continuar...")
                 
@@ -500,5 +500,5 @@ class InterfazConsola:
                 print("\n¡Saliendo del sistema!")
                 break
             except Exception as e:
-                print(f"❌ Error inesperado: {e}")
+                print(f"Error inesperado: {e}")
                 input("Presione Enter para continuar...")

@@ -1,19 +1,20 @@
 import numpy as np
-# Importar clases del directorio src
 from src.Interfaz import InterfazConsola
 
-
 def main():
-    """Función principal para ejecutar el sistema"""
-    # Configurar semilla para reproducibilidad
+    """
+    Función principal que inicializa y ejecuta el sistema completo
+    """
+    # Establecer semilla aleatoria para garantizar reproducibilidad
+    # Esto hace que los experimentos den siempre los mismos resultados
     np.random.seed(42)
     
-    # Inicializar interfaz
+    # Crear instancia de la interfaz de usuario
+    # La interfaz maneja toda la interacción con el usuario
     interfaz = InterfazConsola()
     
-    # Ejecutar sistema
+    # Iniciar el bucle principal de la aplicación
     interfaz.ejecutar()
-
 
 if __name__ == "__main__":
     main()
